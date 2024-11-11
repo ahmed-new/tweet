@@ -1,0 +1,324 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<br><br>
+
+<div class="wrapper">
+  <div class="wrapper">
+    <span class="letter letter1">J</span>
+    <span class="letter letter2">o</span>
+    <span class="letter letter3">i</span>
+    <span class="letter letter4">n</span>
+    
+    <span class="letter letter6"> </span>
+    <span class="letter letter7">U</span>
+    <span class="letter letter8">s</span>
+    
+    <span class="letter letter12"> </span>
+    <span class="letter letter13">T</span>
+    <span class="letter letter14">o</span>
+    <span class="letter letter15">d</span>
+    <span class="letter letter16">a</span>
+    <span class="letter letter17">y</span>
+  </div>
+</div>
+
+<br><br><br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+      <div class="auth-container">
+        <div class="social-buttons">
+            <!-- زر جوجل -->
+            <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-google">
+                <img src="{% static 'images/google.png' %}" alt="Google Logo" class="social-icon">
+                <h5 style="color: rgb(43, 112, 48);">Sign Up with Google</h5>
+            </a>
+            <!-- زر فيسبوك -->
+            <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-facebook">
+                <img src="{% static 'images/fb.png' %}" alt="Facebook Logo" class="social-icon">
+                <h5 style="color: rgb(80, 80, 189);">Sign Up with Facebook</h5>
+            </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="logo col-6">
+      <img src="{% static 'images/logo.png' %}" alt="Logo">
+    </div>
+  </div>
+</div>
+
+<style>
+body {
+  background-image: url("{% static 'images/bgn.png' %}");
+  background-size: cover;  /* لجعل الصورة تغطي الشاشة بالكامل */
+  background-position: center;  /* لضبط الصورة في منتصف الصفحة */
+  background-repeat: no-repeat;  /* لمنع تكرار الصورة */
+}
+
+.social-buttons .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%; /* اضبط العرض ليأخذ الحجم المناسب */
+}
+
+.social-buttons .social-icon {
+  width: 20px; /* اضبط العرض حسب الحاجة */
+  height: 20px; /* اضبط الارتفاع حسب الحاجة */
+  margin-right: 10px; /* المسافة بين الأيقونة والنص */
+}
+
+/* إذا أردت التحكم في حجم الأزرار بشكل كامل */
+.btn-google, .btn-facebook {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-buttons .btn {
+  display: flex;
+  align-items: center; /* توسيط الأيقونة والنص أفقيًا */
+  gap: 10px; /* المسافة بين الأيقونة والنص */
+}
+
+.social-buttons .fab {
+  font-size: 1.2em; /* حجم الأيقونة */
+}
+
+.social-buttons .btn h6 {
+  color: aliceblue;
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-bottom: 0.4em;
+  background-color: #171717;
+  border-radius: 25px;
+  transition: .4s ease-in-out;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.input-field {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  max-width: 400px;
+  color: #d3d3d3;
+}
+
+#heading {
+  text-align: center;
+  margin: 2em;
+  color: rgb(255, 255, 255);
+  font-size: 1.2em;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  border-radius: 25px;
+  padding: 0.6em;
+  border: none;
+  outline: none;
+  color: white;
+  background-color: #171717;
+  box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+}
+
+.input-icon {
+  height: 1.3em;
+  width: 1.3em;
+  fill: white;
+}
+
+.form .btn {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 2.5em;
+}
+
+.button1 {
+  padding: 0.5em;
+  padding-left: 1.1em;
+  padding-right: 1.1em;
+  border-radius: 5px;
+  margin-right: 0.5em;
+  border: none;
+  outline: none;
+  transition: .4s ease-in-out;
+  background-color: #252525;
+  color: white;
+}
+
+.button1:hover {
+  background-color: black;
+  color: white;
+}
+
+.button2 {
+  padding: 0.5em;
+  padding-left: 2.3em;
+  padding-right: 2.3em;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  transition: .4s ease-in-out;
+  background-color: #252525;
+  color: white;
+}
+
+.button2:hover {
+  background-color: black;
+  color: white;
+}
+
+/* Grid for social media buttons */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* توسيط المحتوى داخل الـ div */
+  gap: 20px; /* المسافة بين العناصر */
+  margin-top: 30px;
+}
+
+.social-buttons {
+  display: flex;
+  flex-direction: column; /* ترتيب الأزرار عموديًا */
+  align-items: center; /* توسيط الأزرار */
+  gap: 10px;
+}
+
+.social-buttons .btn h6 {
+  color: aliceblue;
+  text-align: center;
+  margin: 0;
+}
+
+.wrapper {
+  min-height: 3rem;
+  min-width: 20rem;
+  font-size: 4rem; /* تغيير حجم الخط */
+  position: relative;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 1) 30%,
+    rgba(0, 0, 0, 1) 70%,
+    rgba(0, 0, 0, 0)
+  );
+  font-family: 'Arial', sans-serif; /* تغيير نوع الخط */
+}
+
+.letter {
+  width: 1ch;
+  position: absolute;
+  top: 50%;
+  transform: translate(0px, -50%);
+  left: 100%;
+  animation: scroll 3.5s linear infinite;
+  color: #3498db; /* إضافة لون أزرق لكل الحروف */
+}
+
+@keyframes scroll {
+  to {
+    left: -1ch;
+  }
+}
+
+/* تخصيص ألوان لكل حرف */
+.letter1 {
+  animation-delay: calc(3.5s / 24 * (24 - 1) * -1);
+  color: #0b1a5a; /* لون أحمر */
+}
+.letter2 {
+  animation-delay: calc(3.5s / 24 * (24 - 2) * -1);
+  color: #0b1a5a; /* لون برتقالي */
+}
+.letter3 {
+  animation-delay: calc(3.5s / 24 * (24 - 3) * -1);
+  color: #0b1a5a; /* لون أخضر */
+}
+.letter4 {
+  animation-delay: calc(3.5s / 24 * (24 - 4) * -1);
+  color: #0b1a5a; /* لون بنفسجي */
+}
+.letter5 {
+  animation-delay: calc(3.5s / 24 * (24 - 5) * -1);
+  color: #0b1a5a; /* لون أصفر */
+}
+.letter6 {
+  animation-delay: calc(3.5s / 24 * (24 - 6) * -1);
+  color: #0b1a5a; /* لون تركوازي */
+}
+.letter7 {
+  animation-delay: calc(3.5s / 24 * (24 - 7) * -1);
+  color: #0b1a5a; /* لون رمادي داكن */
+}
+.letter8 {
+  animation-delay: calc(3.5s / 24 * (24 - 8) * -1);
+  color: #0b1a5a; /* لون بني */
+}
+.letter9 {
+  animation-delay: calc(3.5s / 24 * (24 - 9) * -1);
+  color: #0b1a5a; /* لون زهور */
+}
+.letter10 {
+  animation-delay: calc(3.5s / 24 * (24 - 10) * -1);
+  color: #0b1a5a; /* لون أحمر */
+}
+.letter11 {
+  animation-delay: calc(3.5s / 24 * (24 - 11) * -1);
+  color: #0b1a5a; /* لون برتقالي */
+}
+.letter12 {
+  animation-delay: calc(3.5s / 24 * (24 - 12) * -1);
+  color: #0b1a5a; /* لون أخضر */
+}
+.letter13 {
+  animation-delay: calc(3.5s / 24 * (24 - 13) * -1);
+  color: #0b1a5a; /* لون بنفسجي */
+}
+.letter14 {
+  animation-delay: calc(3.5s / 24 * (24 - 14) * -1);
+  color: #0b1a5a; /* لون أصفر */
+}
+.letter15 {
+  animation-delay: calc(3.5s / 24 * (24 - 15) * -1);
+  color: #0b1a5a; /* لون تركوازي */
+}
+.letter16 {
+  animation-delay: calc(3.5s / 24 * (24 - 16) * -1);
+  color: #0b1a5a; /* لون رمادي داكن */
+}
+.letter17 {
+  animation-delay: calc(3.5s / 24 * (24 - 17) * -1);
+  color: #0b1a5a; /* لون بني */
+}
+
+.btn-primary{
+  background-color: #171717;
+}
+</style>
+{% endblock %}

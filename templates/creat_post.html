@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br><br>
+<div class="container">
+  <h1 class="text-center gradient-text">Let AI Help You Get Your Thoughts Out</h1>
+    <br><br>
+    <form method="post" class="form-prompt text-center">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input type="text" class="form-control prompt-input" placeholder="What do you want to talk about?" name="prompt">
+        </div>
+        <button type="submit" class="btn btn-submit btn-md">Submit</button>
+    </form>
+    <br><br>
+    {% if generated_text %}
+    <div class="card shadow-sm generated-card">
+        <div class="card-body">
+            <form method="post" action="" class="text-center">
+                {% csrf_token %}
+                <textarea class="form-control generated-textarea" name="post_content" rows="6">{{ generated_text }}</textarea>
+                <button type="submit" class="btn btn-save btn-md mt-2">Submit</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .text-primary {
+        color: #6a0dad; /* اللون الموف الغامق للعناوين */
+    }
+    .form-prompt .prompt-input {
+        background-color: #f3e5f5; /* لون فاتح لمجال الكتابة */
+        border: 1px solid #6a0dad;
+        color: #6a0dad;
+    }
+    .btn-submit, .btn-save {
+        background-color: #6a0dad;
+        color: white;
+        width: 50%; /* يجعل الزر متوسط الحجم */
+        margin: 0 auto; /* يجعل الزر في المنتصف */
+    }
+    .generated-card {
+        background-color: #f3e5f5; /* خلفية البطاقة لمخرجات النص */
+    }
+    .generated-textarea {
+        background-color: #ffffff; /* خلفية نص التدوينة */
+        border: 1px solid #6a0dad;
+        color: #6a0dad;
+    }
+    .gradient-text {
+        background: linear-gradient(to right, #0581e7, #f007f8); /* تدرج لوني من الأزرق إلى الموف */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; /* يجعل النص شفافاً ليظهر التدرج فقط */
+        font-weight:700;
+    }
+</style>
+{% endblock %}

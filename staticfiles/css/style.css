@@ -1,0 +1,154 @@
+.my-custom-navbar {
+    background-color: #374241; /* لون خلفية النافبار */
+    border-bottom: 2px solid #333; /* خط سفلي للنافبار */
+  }
+  
+  .my-custom-navbar .navbar-brand,
+  .my-custom-navbar .nav-link {
+    color: white; /* لون النص */
+  }
+  
+  .my-custom-navbar .nav-link:hover {
+    color: #ffcc00; /* لون النص عند التمرير */
+  }
+  
+  .my-custom-navbar .navbar-toggler {
+    border-color: #ffcc00; /* لون زر التبديل عند صغر الشاشة */
+  }
+  
+  .my-custom-navbar .dropdown-menu {
+    background-color: #333; /* لون خلفية قائمة الـ dropdown */
+  }
+  
+  .my-custom-navbar .dropdown-item {
+    color: white; /* لون عناصر الـ dropdown */
+  }
+  
+  .my-custom-navbar .dropdown-item:hover {
+    background-color: #ffcc00; /* لون العنصر عند التمرير */
+  }
+  
+  .my-custom-navbar .form-control {
+    background-color: #f0f0f0; /* لون خلفية مربع البحث */
+  }
+  
+  .my-custom-navbar .btn-outline-success {
+    color: #fff; /* لون النص في الزر */
+    border-color: #fff; /* لون حدود الزر */
+  }
+  
+  .my-custom-navbar .btn-outline-success:hover {
+    background-color: #fff; /* لون خلفية الزر عند التمرير */
+    color: #4CAF50; /* لون النص في الزر عند التمرير */
+  }
+
+/* ملف css */
+
+/* تحسين تصميم التغريدة */
+.tweet-card {
+  border-radius: 15px; /* زاوية مستديرة للتغريدة */
+  overflow: hidden; /* إخفاء المحتوى الزائد */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* تأثير الظل */
+  transition: box-shadow 0.3s ease; /* تأثير الظل عند التمرير */
+}
+
+.tweet-card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2); /* زيادة الظل عند التمرير */
+}
+
+/* تحسين تنسيق النص داخل التغريدة */
+.tweet-body {
+  font-size: 1.1em; /* حجم النص */
+  color: #333; /* اللون الأساسي */
+}
+
+/* تحسين شكل الصورة الشخصية */
+.profile-img {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 50%; /* جعل الصورة دائرية */
+}
+
+/* تحسين تنسيق أزرار التفاعل (إعجاب، مشاركة، إلخ) */
+/* تحسين تنسيق الـ footer للتغريدة */
+.tweet-footer {
+  padding: 12px 20px; /* إضافة حواف للـ footer لزيادة المسافة داخل العناصر */
+  border-top: 1px solid #eee; /* إضافة حد فاصل بين محتوى التغريدة والـ footer */
+  background-color: #f9f9f9; /* إضافة خلفية خفيفة */
+}
+
+/* تحسين تنسيق الأزرار */
+.tweet-footer .btn {
+  border-radius: 20px; /* جعل الأزرار دائرية أكثر */
+  padding: 6px 15px; /* إضافة حواف صغيرة للأزرار */
+  transition: transform 0.2s ease, background-color 0.3s ease; /* تأثيرات التحويل عند التمرير */
+}
+
+/* تغيير حجم الأزرار أثناء التمرير */
+.tweet-footer .btn:hover {
+  transform: scale(1.05); /* تكبير الأزرار قليلاً */
+  background-color: #0069d9 !important; /* تغيير اللون في حال التمرير */
+}
+
+/* إضافة تباعد بين الأزرار */
+.tweet-footer .btn.sm-spacing {
+  margin-right: 10px; /* إضافة مسافة بين الأزرار */
+}
+
+/* تنسيق نص "Likes" */
+.tweet-footer .text-muted {
+  font-size: 14px; /* تقليل حجم النص */
+  margin-right: 15px; /* إضافة مسافة بين النص والأزرار */
+}
+
+/* تنسيق الـ comment section */
+.comment-section {
+  font-size: 14px;
+  margin-left: 20px; /* إضافة مسافة بين الـ comment section والأزرار */
+  display: flex;
+  align-items: center;
+}
+
+/* تحسين المسافات في حالة وجود تعليقات */
+.comment-section h6 {
+  margin-right: 10px; /* إضافة مسافة بين النص وزر الإضافة */
+}
+
+
+/* تحسين تنسيق الصورة في التعليقات */
+.comment-img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* تحسين تنسيق فورم نشر التغريدة */
+.card-body form {
+  margin-top: 20px;
+}
+
+.card-body form button {
+  width: 100%;
+  background-color: #28a745; /* لون زر النشر */
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.card-body form button:hover {
+  background-color: #218838;
+}
+
+/* تخصيص أزرار مساعدة */
+.btn-warning {
+  background-color: #f0ad4e;
+  color: white;
+}
+
+.btn-warning:hover {
+  background-color: #ec971f;
+}

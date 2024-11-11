@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <!-- Page Header -->
+    <h2 class="text-center mb-4" style="font-family: 'Courier New', monospace; font-size: 36px; color: #6a0dad;">
+        Notifications
+    </h2>
+    
+    <!-- Notifications List -->
+    <ul class="list-group">
+        {% for notification in notifications %}
+            <li class="list-group-item d-flex justify-content-between align-items-center {% if not notification.is_read %}bg-light{% endif %}">
+                <a href="{% url 'mark_notification_as_read' notification.id %}" class="text-decoration-none" style="color: #6a0dad;">
+                    {{ notification.type }}
+                </a>
+                <span class="text-muted">{{ notification.time }}</span>
+                {% if not notification.is_read %}
+                    <span class="badge bg-warning text-dark ms-2">New</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

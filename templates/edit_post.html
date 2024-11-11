@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<br><br>
+
+<!-- Centered page content -->
+<div class="container d-flex justify-content-center">
+    <div class="card shadow-lg" style="width: 100%; max-width: 500px; background-color: #f3e5f5; border: none;">
+        <div class="card-body p-4">
+            <h3 class="card-title text-center mb-4 ">Update Your Tweet</h3>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn update-btn w-100 mt-3">Update Now</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Button styling -->
+<style>
+    .update-btn {
+        background-color: #6a0dad; /* Matching primary purple color */
+        color: white;
+        font-weight: bold;
+        border: none;
+        padding: 10px 0; /* Increased padding for a larger button */
+        font-size: 16px; /* Slightly larger font */
+        transition: background-color 0.3s ease;
+    }
+
+    .update-btn:hover {
+        background-color: #4a0072; /* Darker shade on hover */
+        color: #f3e5f5; /* Light text for contrast */
+    }
+
+    .update-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px #6a0dad; /* Outline on focus */
+    }
+    h3{
+        
+        background: linear-gradient(to right, #0581e7, #f007f8); /* تدرج لوني من الأزرق إلى الموف */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; /* يجعل النص شفافاً ليظهر التدرج فقط */
+        font-weight:700;
+    }
+    
+</style>
+
+{% endblock %}

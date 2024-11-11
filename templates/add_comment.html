@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="card shadow-sm comment-card">
+        <div class="card-body">
+            <h5 class="card-title gradient-text">Add a Comment</h5>
+            <form action="" method="POST" class="text-center">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-submit btn-small">Post Your Comment</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* تدرج اللون للعناوين */
+    .gradient-text {
+        background: linear-gradient(to right, #0000ff, #6a0dad);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    /* تنسيق الزرار */
+    .btn-submit {
+        background-color: #6a0dad;
+        color: white;
+    }
+
+    /* حجم صغير للزرار */
+    .btn-small {
+        padding: 8px 15px; /* تقليل الحجم */
+        font-size: 14px; /* تصغير الخط */
+        display: inline-block;
+        margin: 10px auto; /* توسيط الزر */
+    }
+
+    /* خلفية البطاقة */
+    .comment-card {
+        background-color: #f3e5f5;
+        margin-top: 50px;
+    }
+</style>
+{% endblock %}

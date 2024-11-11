@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<br><br>
+
+<div class="container">
+    <div class="row">
+        <!-- Profile Column -->
+        <div class="col-md-9">
+            {% if profile %}
+            <div class="card mb-3 profile-card shadow-sm">
+                <div class="row g-0">
+                    <div class="col-md-4 d-flex align-items-center justify-content-center">
+                        {% if profile.image %}
+                            <img src="{{ profile.image.url }}" class="img-fluid rounded-circle" alt="Profile Image" style="width: 120px; height: 120px;">
+                        {% else %}
+                            <img src="{% static 'images/default_profile_pic.png' %}" class="img-fluid rounded-circle" alt="Default Image" style="width: 120px; height: 120px;">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">{{ profile.user.username }}</h5>
+                            <p class="card-text"><small class="text-muted">Last updated at {{ profile.updated }}</small></p>
+                            <p class="card-text"><small class="text-muted">About: {{ profile.bio }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if tweets %}
+            <div class="mt-4">
+                <h4 class="text-primary">Tweets</h4>
+                {% for tweet in tweets %}
+                <div class="card mb-3 tweet-card shadow-sm">
+                    <div class="row g-0">
+                        <div class="col-md-1 d-flex align-items-center justify-content-center">
+                            {% if tweet.user.profile.image %}
+                                <img src="{{ tweet.user.profile.image.url }}" class="img-fluid rounded-circle" alt="User Image" style="width: 40px; height: 40px;">
+                            {% else %}
+                                <img src="{% static 'images/default_profile_pic.png' %}" class="img-fluid rounded-circle" alt="Default User Image" style="width: 40px; height: 40px;">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-11">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    <a href="{% url 'profile' tweet.user.id %}" class="text-primary">@{{ tweet.user.username }}</a><br>
+                                    {% if tweet.original_user %}
+                                        <strong>Shared from</strong> <a href="{% url 'profile' tweet.original_user.id %}" class="text-primary">{{ tweet.original_user }}</a>
+                                    {% endif %}
+                                    <small class="text-muted">{{ tweet.created|date:"d M Y, H:i" }}</small>
+                                </h6>
+                                <p class="card-text">{{ tweet.body }}</p>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <span class="me-3">{{ tweet.likes_number }} likes</span>
+                                    {% if user in tweet.likes.all %}
+                                        <a href="{% url 'post_like' tweet.id %}">
+                                            <button class="btn btn-danger btn-sm me-2">Unlike</button>
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'post_like' tweet.id %}">
+                                            <button class="btn btn-primary btn-sm me-2">Like</button>
+                                        </a>
+                                    {% endif %}
+                                    <a href="{% url 'share' tweet.id %}" class="btn btn-outline-secondary btn-sm me-2">
+                                        <i class="fa-solid fa-share"></i> Share
+                                    </a>
+                                    {% if user.username == tweet.user.username %}       
+                                    <a href="{% url 'delete' tweet.id %}" class="me-2">
+                                        <i class="fa-solid fa-trash text-danger"></i>
+                                    </a>
+                                    <a href="{% url 'edit' tweet.id %}" class="me-2">
+                                        <i class="fa-solid fa-pen-to-square text-warning"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Followers Column -->
+        <div class="col-md-3">
+            <div class="card mb-4 profile-followers shadow-sm">
+                <div class="card-header text-primary">
+                    {{ profile.user.username }} Follows ({{ following_count }})
+                </div>
+                <div class="card-body">
+                    {% for following in profile.follows.all %}
+                        <a href="{% url 'profile' following.user.id %}" class="text-decoration-none text-primary">@{{ following.user.username }}</a><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card mb-4 profile-followers shadow-sm">
+                <div class="card-header text-primary">
+                    {{ profile.user.username }} Has ({{ followers_count }}) Followers 
+                    {% if request.user.id != profile.user.id %}
+                        <form method="POST" class="d-inline">
+                            {% csrf_token %}
+                            {% if profile in user.profile.follows.all %}
+                                <button class="btn btn-outline-danger btn-sm mt-1 w-100" name="follow" value="unfollow" type="submit">
+                                    Unfollow @{{ profile.user.username|lower }}
+                                </button>
+                            {% else %}
+                                <button class="btn btn-outline-success btn-sm mt-1 w-100" name="follow" value="follow" type="submit">
+                                    Follow @{{ profile.user.username|lower }}
+                                </button>
+                            {% endif %}
+                        </form>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    {% for follower in profile.followed_by.all %}
+                        <a href="{% url 'profile' follower.user.id %}" class="text-decoration-none text-primary">@{{ follower.user.username }}</a><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% if request.user.id == profile.user.id %}
+            <div class="text-center">
+                <a href="{% url 'update_profile' %}"><button class="btn btn-warning mt-2 w-100">Update Profile</button></a>
+            </div>
+            <hr>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #e2e3e5;
+    }
+
+    .card {
+        background-color: #f8f9fa;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        border: none;
+    }
+
+    .profile-card, .tweet-card, .profile-followers {
+        background-color: #fffeff;
+        border-radius: 10px;
+    }
+
+    .text-primary {
+        color: #6a0dad;
+    }
+
+    .btn-primary {
+        background-color: #6a0dad;
+        border: none;
+    }
+
+    .btn-warning {
+        background-color: #4a0072;
+        border: none;
+    }
+
+    .btn-outline-success {
+        color: #6a0dad;
+        border-color: #6a0dad;
+    }
+
+    .btn-sm {
+        margin-right: 5px;
+    }
+
+    .card-footer .me-2 {
+        margin-right: 10px;
+    }
+</style>
+
+{% endblock %}

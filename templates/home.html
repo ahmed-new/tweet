@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<br><br>
+<div class="container">
+    <div class="row">
+        <!-- عمود التغريدات -->
+        <div class="col-md-8">
+            {% for tweet in tweets %}
+            <div class="card mb-4 shadow-lg tweet-card" style="max-width: 100%;">
+                <div class="row g-0">
+                    <div class="col-md-1 d-flex align-items-center justify-content-center">
+                        {% if tweet.user.profile.image %}
+                            <img src="{{ tweet.user.profile.image.url }}" class="img-fluid rounded-circle" alt="User Image" class="profile-img">
+                        {% else %}
+                            <img src="{% static 'images/default_profile_pic.png' %}" class="img-fluid rounded-circle" alt="Default User Image" class="profile-img">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-11">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                <a href="{% url 'profile' tweet.user.id %}">@{{ tweet.user.username }}</a>
+                                <small class="text-muted">{{ tweet.created|date:"d M Y, H:i" }}</small>
+                            </h6>
+                            <p class="card-text tweet-body">{{ tweet.body }}</p>
+                        </div>
+                        <div class="card-footer tweet-footer d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <!-- عداد الإعجابات -->
+                                <span class="me-3 text-muted">{{ tweet.likes_number }} likes</span>
+                        
+                                <!-- زر الإعجاب/عدم الإعجاب -->
+                                {% if user in tweet.likes.all %}
+                                    <a href="{% url 'post_like' tweet.id %}">
+                                        <button class="btn btn-danger btn-sm me-2">Unlike</button>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'post_like' tweet.id %}">
+                                        <button class="btn btn-primary btn-sm me-2">Like</button>
+                                    </a>
+                                {% endif %}
+                        
+                                <!-- زر المشاركة -->
+                                <a href="{% url 'share' tweet.id %}" class="btn btn-outline-secondary btn-sm me-2">
+                                    <i class="fa-solid fa-share"></i> Share
+                                </a>
+                        
+                                <!-- أزرار الحذف والتعديل (إذا كان المستخدم هو صاحب التغريدة) -->
+                                {% if user.username == tweet.user.username %}
+                                    <a href="{% url 'delete' tweet.id %}" class="btn btn-danger btn-sm me-2">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                    <a href="{% url 'edit' tweet.id %}" class="btn btn-warning btn-sm">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        
+                            <!-- قسم التعليقات -->
+                            <div class="comment-section d-flex align-items-center">
+                                {% if not tweet.comments.all %}
+                                    <h6 class="text-muted me-3">NO comments yet</h6>
+                                    <a href="{% url 'add_comment' tweet.id %}" class="btn btn-outline-primary btn-sm">Add one now</a>
+                                {% else %}
+                                    <h6 class="text-muted me-3">{{ tweet.comments.count }} Comments</h6>
+                                    <a href="{% url 'add_comment' tweet.id %}" class="btn btn-outline-primary btn-sm">Add Comment</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            {% for comment in tweet.comments.all %}
+                                <div class="d-flex mb-2">
+                                    <div class="me-2">
+                                        {% if comment.profile.image %}
+                                            <img src="{{ comment.profile.image.url }}" class="img-fluid rounded-circle comment-img" alt="User Image"style="width: 30px; height: 30px;">
+                                        {% else %}
+                                            <img src="{% static 'images/default_profile_pic.png' %}" class="img-fluid rounded-circle comment-img" alt="Default User Image"style="width: 30px; height: 30px;">
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <strong>{{ comment.name }}</strong> <small class="text-muted">{{ comment.date_added|date:"d M Y, H:i" }}</small>
+                                        <p>{{ comment.body }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="col-md-4">
+            {% if form %}
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Post a Tweet</h5>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-success w-100" >Post Now</button>
+                    </form>
+                    <a href="{% url 'creat_post' %}">
+                        <button type="submit" class="btn btn-warning w-100 mt-2">Let AI Help</button>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+           
+        </div>
+    </div>
+</div>
+<style>
+    /* CSS */
+.btn-success {
+    background-color: 
+    #720ec4 !important; /* لون خلفية جديد */
+    color: #ffffff !important; /* لون النص */
+}
+
+.btn-success:hover {
+    background-color: #3d0b6f !important; /* لون عند التمرير */
+}
+
+</style>
+{% endblock %}
+

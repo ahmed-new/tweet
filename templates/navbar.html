@@ -1,0 +1,77 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark my-custom-navbar bg-dark shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="{% static 'images/logo.png' %}" alt="Logo" width="40" height="40" class="d-inline-block align-text-top">
+      
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      {% if user.is_authenticated %}
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active"  aria-current="page" href="{% url 'profile' request.user.id %}">My Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active"  aria-current="page" href="{% url 'profiles_list' %}">All Profiles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active"  aria-current="page" href="{% url 'logout' %}">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'notifications' %}">
+              <i class="fas fa-bell"></i> Notifications
+              {% if notifications_count > 0 %}
+                <span class="badge">{{ notifications_count }}</span>
+              {% endif %}
+            </a>
+          </li>
+        </ul>
+      {% else %}
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active"  aria-current="page" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active"  aria-current="page" href="{% url 'register' %}">Create an Account</a>
+          </li>
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* styles.css */
+  .navbar {
+    transition: background-color 0.3s ease;
+  }
+
+  .navbar:hover {
+    background-color: #333; /* darken background on hover */
+  }
+
+  .badge {
+    background-color: red; /* لون الخلفية */
+    color: white; /* لون النص */
+    border-radius: 50%; /* دائري */
+    padding: 0.2em 0.6em; /* حواف */
+    margin-left: 5px; /* مسافة بين الرقم والرابط */
+    font-size: 0.8em; /* حجم الخط */
+  }
+
+  .navbar-brand img {
+    border-radius: 50%; /* اجعل الشعار دائري */
+  }
+
+  .nav-link.active {
+    font-weight: bold;
+  }
+
+  .nav-item:hover .nav-link {
+    color: #ffcc00; /* اللون عند التمرير على الرابط */
+  }
+</style>
