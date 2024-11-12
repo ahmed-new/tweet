@@ -102,15 +102,17 @@ def delete_post(request,pk):
 
 
 def share_post(request,pk):
-    tweet= get_object_or_404(Post , id=pk)
-    new_post=Post.objects.create(user=request.user , body=tweet.body , original_user=tweet.user)
-    new_post.save()
-    message= f'{request.user} shared your tweet on his profile'
-    Notification.objects.create(user=tweet.user , type=message )
+    if request.user.is_authenticated:
+        tweet= get_object_or_404(Post , id=pk)
+        new_post=Post.objects.create(user=request.user , body=tweet.body , original_user=tweet.user)
+        new_post.save()
+        message= f'{request.user} shared your tweet on his profile'
+        Notification.objects.create(user=tweet.user , type=message )
 
-    messages.success(request ,'This Tweet Was Shared  On Your Profile')
-    return redirect(request.META.get("HTTP_REFERER"))
-
+        messages.success(request ,'This Tweet Was Shared  On Your Profile')
+        return redirect(request.META.get("HTTP_REFERER"))
+    messages.error(request, "You must be logged in to view this page.")
+    return redirect('login')
 
 def post_like(request,pk):
     if request.user.is_authenticated:
@@ -329,9 +331,10 @@ def profiles_list(request):
 
 
 def add_comment(request,pk):
-    tweet= get_object_or_404(Post,id=pk)
-    current_pro= Profile.objects.get(user__id=request.user.id)
+    
     if request.user.is_authenticated:
+        tweet= get_object_or_404(Post,id=pk)
+        current_pro= Profile.objects.get(user__id=request.user.id)
         form= Commentform(request.POST or None)
         if request.method== 'POST':
             if form.is_valid():
@@ -350,7 +353,10 @@ def add_comment(request,pk):
         else:
 
            return render(request, 'add_comment.html', {'form':form})
+    messages.error(request, "You must be logged in to view this page.")
+    return redirect('login')
 
+        
 
 def notifications(request):
     notifications= Notification.objects.filter(user = request.user).order_by('-time')

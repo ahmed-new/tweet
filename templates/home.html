@@ -12,9 +12,11 @@
                 <div class="row g-0">
                     <div class="col-md-1 d-flex align-items-center justify-content-center">
                         {% if tweet.user.profile.image %}
-                            <img src="{{ tweet.user.profile.image.url }}" class="img-fluid rounded-circle" alt="User Image" class="profile-img">
+                        <img src="{{ tweet.user.profile.image.url }}" class="img-fluid rounded-circle" alt="User Image"
+                            class="profile-img">
                         {% else %}
-                            <img src="{% static 'images/default_profile_pic.png' %}" class="img-fluid rounded-circle" alt="Default User Image" class="profile-img">
+                        <img src="{% static 'images/default_profile_pic.png' %}" class="img-fluid rounded-circle"
+                            alt="Default User Image" class="profile-img">
                         {% endif %}
                     </div>
                     <div class="col-md-11">
@@ -29,62 +31,71 @@
                             <div class="d-flex align-items-center">
                                 <!-- عداد الإعجابات -->
                                 <span class="me-3 text-muted">{{ tweet.likes_number }} likes</span>
-                        
+
                                 <!-- زر الإعجاب/عدم الإعجاب -->
                                 {% if user in tweet.likes.all %}
-                                    <a href="{% url 'post_like' tweet.id %}">
-                                        <button class="btn btn-danger btn-sm me-2">Unlike</button>
-                                    </a>
+                                <a href="{% url 'post_like' tweet.id %}">
+                                    <button class="btn btn-danger btn-sm me-2">Unlike</button>
+                                </a>
                                 {% else %}
-                                    <a href="{% url 'post_like' tweet.id %}">
-                                        <button class="btn btn-primary btn-sm me-2">Like</button>
-                                    </a>
+                                <a href="{% url 'post_like' tweet.id %}">
+                                    <button class="btn btn-primary btn-sm me-2">Like</button>
+                                </a>
                                 {% endif %}
-                        
+
                                 <!-- زر المشاركة -->
                                 <a href="{% url 'share' tweet.id %}" class="btn btn-outline-secondary btn-sm me-2">
                                     <i class="fa-solid fa-share"></i> Share
                                 </a>
-                        
+
                                 <!-- أزرار الحذف والتعديل (إذا كان المستخدم هو صاحب التغريدة) -->
                                 {% if user.username == tweet.user.username %}
-                                    <a href="{% url 'delete' tweet.id %}" class="btn btn-danger btn-sm me-2">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </a>
-                                    <a href="{% url 'edit' tweet.id %}" class="btn btn-warning btn-sm">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </a>
+                                <a href="{% url 'delete' tweet.id %}" class="btn btn-danger btn-sm me-2">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                                <a href="{% url 'edit' tweet.id %}" class="btn btn-warning btn-sm">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
                                 {% endif %}
                             </div>
-                        
+
+
+
                             <!-- قسم التعليقات -->
                             <div class="comment-section d-flex align-items-center">
                                 {% if not tweet.comments.all %}
-                                    <h6 class="text-muted me-3">NO comments yet</h6>
-                                    <a href="{% url 'add_comment' tweet.id %}" class="btn btn-outline-primary btn-sm">Add one now</a>
+                                <h6 class="text-muted me-3">NO comments yet</h6>
+                                <a href="{% url 'add_comment' tweet.id %}" class="btn btn-outline-primary btn-sm">Add
+                                    one now</a>
                                 {% else %}
-                                    <h6 class="text-muted me-3">{{ tweet.comments.count }} Comments</h6>
-                                    <a href="{% url 'add_comment' tweet.id %}" class="btn btn-outline-primary btn-sm">Add Comment</a>
+                                <h6 class="text-muted me-3">{{ tweet.comments.count }} Comments</h6>
+                                <a href="{% url 'add_comment' tweet.id %}" class="btn btn-outline-primary btn-sm">Add
+                                    Comment</a>
                                 {% endif %}
                             </div>
                         </div>
-                        
+
                         <div class="card-body">
                             {% for comment in tweet.comments.all %}
-                                <div class="d-flex mb-2">
-                                    <div class="me-2">
-                                        {% if comment.profile.image %}
-                                            <img src="{{ comment.profile.image.url }}" class="img-fluid rounded-circle comment-img" alt="User Image"style="width: 30px; height: 30px;">
-                                        {% else %}
-                                            <img src="{% static 'images/default_profile_pic.png' %}" class="img-fluid rounded-circle comment-img" alt="Default User Image"style="width: 30px; height: 30px;">
-                                        {% endif %}
-                                    </div>
-                                    <div>
-                                        <strong>{{ comment.name }}</strong> <small class="text-muted">{{ comment.date_added|date:"d M Y, H:i" }}</small>
-                                        <p>{{ comment.body }}</p>
-                                    </div>
+                            <div class="d-flex mb-2">
+                                <div class="me-2">
+                                    {% if comment.profile.image %}
+                                    <img src="{{ comment.profile.image.url }}"
+                                        class="img-fluid rounded-circle comment-img" alt="User Image"
+                                        style="width: 30px; height: 30px;">
+                                    {% else %}
+                                    <img src="{% static 'images/default_profile_pic.png' %}"
+                                        class="img-fluid rounded-circle comment-img" alt="Default User Image"
+                                        style="width: 30px; height: 30px;">
+                                    {% endif %}
                                 </div>
-                                <hr>
+                                <div>
+                                    <strong>{{ comment.name }}</strong> <small class="text-muted">{{
+                                        comment.date_added|date:"d M Y, H:i" }}</small>
+                                    <p>{{ comment.body }}</p>
+                                </div>
+                            </div>
+                            <hr>
                             {% endfor %}
                         </div>
                     </div>
@@ -92,7 +103,7 @@
             </div>
             {% endfor %}
         </div>
-        
+
         <div class="col-md-4">
             {% if form %}
             <div class="card shadow-sm">
@@ -101,7 +112,7 @@
                     <form action="" method="POST">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="submit" class="btn btn-success w-100" >Post Now</button>
+                        <button type="submit" class="btn btn-success w-100">Post Now</button>
                     </form>
                     <a href="{% url 'creat_post' %}">
                         <button type="submit" class="btn btn-warning w-100 mt-2">Let AI Help</button>
@@ -109,22 +120,102 @@
                 </div>
             </div>
             {% endif %}
-           
+
         </div>
     </div>
 </div>
 <style>
+    /* ميديا كويري لتحسين العرض على الشاشات الصغيرة */
+    @media (max-width: 768px) {
+        .container {
+            padding: 0 15px; /* تقليل الحواف لتوفير مساحة */
+        }
+
+        .col-md-4 {
+            order: -1; /* تغيير ترتيب الأعمدة في الموبايل لوضع الفورم في الأعلى */
+            margin-bottom: 20px; /* إضافة مسافة أسفل الفورم */
+        }
+
+        .col-md-8 {
+            order: 1; /* تغيير ترتيب التغريدات لوضعها أسفل الفورم */
+        }
+
+        /* تحسين تنسيق الأزرار */
+        .btn-success, .btn-warning, .btn-outline-primary {
+            width: 100%; /* جعل الأزرار تأخذ عرض كامل */
+            padding: 12px; /* زيادة مساحة الأزرار لتكون أكبر وأسهل في النقر */
+            margin-bottom: 10px; /* إضافة مسافة بين الأزرار */
+            box-sizing: border-box; /* ضمان أن الأزرار تتناسب مع العرض الكامل دون الخروج من حدود الشاشة */
+        }
+
+        /* تحسين حجم الصورة الشخصية في التغريدات */
+        .tweet-card img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .tweet-body {
+            font-size: 1.1rem; /* تقليل حجم النص للتغريدات */
+        }
+
+        /* تنسيق التعليقات */
+        .comment-section {
+            margin-top: 10px; /* إضافة مسافة قبل قسم التعليقات */
+        }
+
+        .comment-img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* تنسيق زر التعليق */
+        .comment-section .btn-outline-primary {
+            width: 100%; /* التأكد من أن زر التعليق يكون بعرض كامل */
+        }
+
+        /* تحسين تنسيق التذييل */
+        .card-footer {
+            font-size: 0.9rem; /* تقليل حجم النص في التذييل */
+        }
+
+        /* تحسين عرض أزرار الإعجاب والمشاركة والتعديل والمحو */
+        .card-footer button {
+            font-size: 0.8rem; /* تقليل حجم الخط */
+            padding: 5px 10px; /* تقليل الحجم الكلي للزر */
+        }
+
+        .card-footer .btn-sm {
+            padding: 5px 10px; /* تقليل الحواف للأزرار الصغيرة */
+            font-size: 0.8rem; /* تقليل حجم النص للأزرار */
+        }
+    }
+
+    .comment-img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .card-footer {
+        font-size: 0.9rem; /* تقليل حجم النص في التذييل */
+    }
+
+    .comment-section .btn-outline-primary {
+        width: 100%; /* التأكد من أن زر التعليق يكون بعرض كامل */
+    }
+
     /* CSS */
-.btn-success {
-    background-color: 
-    #720ec4 !important; /* لون خلفية جديد */
-    color: #ffffff !important; /* لون النص */
-}
+    .btn-success {
+        background-color:
+            #720ec4 !important;
+        /* لون خلفية جديد */
+        color: #ffffff !important;
+        /* لون النص */
+    }
 
-.btn-success:hover {
-    background-color: #3d0b6f !important; /* لون عند التمرير */
-}
-
+    .btn-success:hover {
+        background-color: #3d0b6f !important;
+        /* لون عند التمرير */
+    }
 </style>
-{% endblock %}
 
+{% endblock %}

@@ -65,7 +65,7 @@ class Posrform(forms.ModelForm):
 class Commentform(forms.ModelForm):
     body=forms.CharField(required=True ,widget=forms.widgets.Textarea(attrs={
         'class':'form-control',
-        'placeholder':'Add you comment ',
+        'placeholder':'Add your comment ',
 
         
 

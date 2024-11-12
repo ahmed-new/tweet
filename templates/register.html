@@ -58,6 +58,56 @@
 </div>
 
 <style>
+ @media (max-width: 768px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .col-6 {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .logo img {
+    max-width: 60%; /* تقليل حجم الشعار ليتناسب بشكل أفضل مع الموبايل */
+    height: auto;
+    margin: 0 auto;
+    display: block; /* التأكد من أن الشعار يظهر على شكل كتلة */
+    margin-bottom: 20px;
+  }
+
+  /* تحسين عرض النص المتحرك */
+  .wrapper {
+    font-size: 1.8rem; /* تقليل حجم النص قليلاً */
+    min-width: 10rem;
+    text-align: center; /* توسيط النص */
+  }
+
+  .letter {
+    font-size: 1.8rem;
+    position: relative; /* لمنع التداخل */
+    display: inline-block; /* لتجنب التراكم فوق بعض */
+  }
+}
+
+  .form {
+    padding: 1em; /* تخفيف الحواف الداخلية */
+    max-width: 90%; /* تقليل العرض قليلاً */
+  }
+
+  /* تحسين عرض الأزرار لتناسب الشاشة */
+  .social-buttons .btn {
+    font-size: 0.9em;
+    padding: 10px;
+    max-width: 90%; /* جعل الأزرار متناسبة مع الشاشة */
+  }
+
 body {
   background-image: url("{% static 'images/bgn.png' %}");
   background-size: cover;  /* لجعل الصورة تغطي الشاشة بالكامل */
