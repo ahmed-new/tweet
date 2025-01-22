@@ -55,15 +55,15 @@
                             </div>
                             <div class="card-footer d-flex justify-content-between align-items-center">
                                 <div class="d-flex align-items-center">
-                                    <span class="me-3">{{ tweet.likes_number }} likes</span>
+                                    <span id="like-count-{{tweet.id}}" class="me-3 text-muted">{{ tweet.likes_number }} likes</span>
+
+                                    <!-- زر الإعجاب/عدم الإعجاب -->
                                     {% if user in tweet.likes.all %}
-                                        <a href="{% url 'post_like' tweet.id %}">
-                                            <button class="btn btn-danger btn-sm me-2">Unlike</button>
-                                        </a>
+                                    
+                                    <button  class="btn btn-danger btn-sm me-2 like-btn" data-action="unlike" data-id="{{tweet.id}}">Unlike</button>
+                                    
                                     {% else %}
-                                        <a href="{% url 'post_like' tweet.id %}">
-                                            <button class="btn btn-primary btn-sm me-2">Like</button>
-                                        </a>
+                                        <button  class="btn btn-primary btn-sm me-2 like-btn" data-action="like" data-id="{{tweet.id}}">Like</button>
                                     {% endif %}
                                     <a href="{% url 'share' tweet.id %}" class="btn btn-outline-secondary btn-sm me-2">
                                         <i class="fa-solid fa-share"></i> Share
@@ -177,5 +177,51 @@
         margin-right: 10px;
     }
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value; // الحصول على قيمة CSRF Token
+
+        document.querySelectorAll(".like-btn").forEach(button => {
+            button.addEventListener("click", async function () {
+                const tweetId = this.getAttribute("data-id"); // الحصول على ID التويتة
+                const action = this.getAttribute("data-action"); // الحصول على نوع الأكشن (like/unlike)
+
+                try {
+                    // إرسال الطلب إلى السيرفر
+                    const response = await fetch(`/like/${tweetId}`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRFToken": csrfToken
+                        },
+                        body: JSON.stringify({ action: action })
+                    });
+
+                    // التأكد من أن الرد بصيغة JSON
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // تحديث النص والستايل حسب الأكشن
+                        this.textContent = action === "like" ? "Unlike" : "Like";
+                        this.setAttribute("data-action", action === "like" ? "unlike" : "like");
+                        this.classList.toggle("btn-danger", action === "like");
+                        this.classList.toggle("btn-primary", action === "unlike");
+
+                        // تحديث عدد اللايكات
+                        const likeCount = document.getElementById(`like-count-${tweetId}`);
+                        if (likeCount) {
+                            likeCount.textContent = `${data.likes_count} likes`;
+                        }
+                    } else {
+                        console.error("Something went wrong on the server.");
+                    }
+                } catch (error) {
+                    console.error("ERROR:", error);
+                }
+            });
+        });
+    });
+</script>
 
 {% endblock %}

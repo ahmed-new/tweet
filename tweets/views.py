@@ -1,5 +1,6 @@
 from django.forms import BaseModelForm
-from django.http import HttpResponse
+from django.http import HttpResponse , JsonResponse
+import json
 from django.shortcuts import render , redirect , get_object_or_404
 from .models import Post , Profile , Comment , Notification
 from django.contrib.auth . models import User
@@ -115,17 +116,24 @@ def share_post(request,pk):
     return redirect('login')
 
 def post_like(request,pk):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.method =="POST":
         tweet= get_object_or_404(Post,id=pk)
-        if tweet.likes.filter(id=request.user.id):
-            tweet.likes.remove(request.user)
-        else:
+        data = json.loads(request.body)
+        action = data.get("action")
+        if action == "like":
             tweet.likes.add(request.user)
+            likes_count = tweet.likes_number()
+        elif action =="unlike":
+            tweet.likes.remove(request.user)
+            likes_count = tweet.likes_number()
             message= f'{request.user} Liked your tweet 👍'
             Notification.objects.create(user=tweet.user , type=message)
+        
 
-
-        return redirect(request.META.get("HTTP_REFERER"))
+        return JsonResponse({
+            "success": True,
+            "likes_count": likes_count,
+        })
     messages.error(request, "You must be logged in to view this page.")
     return redirect('login')
         
